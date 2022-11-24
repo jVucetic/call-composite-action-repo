@@ -24,9 +24,9 @@ jobs:
         with:
           repository: jVucetic/hello-world-composite-action
           ref: main
-          path: ./.github/actions/hello-world-composite-action/actions/first
+          path: ./.github/actions/hello-world-composite-action/main/
 
       # run shared build action
       - name: Run shared build
-        uses: ./.github/actions/hello-world-composite-action/actions/first
+        uses: ./.github/actions/hello-world-composite-action/main/
 
