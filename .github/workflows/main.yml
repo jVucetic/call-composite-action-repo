@@ -24,7 +24,6 @@ jobs:
         with:
           repository: jVucetic/hello-world-composite-action
           ref: main
-          token: ${{ secrets.CI_BOT_TOKEN }}
           path: ./.github/actions/hello-world-composite-action/actions/first
 
       # run shared build action
