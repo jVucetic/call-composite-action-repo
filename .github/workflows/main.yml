@@ -22,7 +22,7 @@ jobs:
       - name: Check out shared build repo
         uses: actions/checkout@v3
         with:
-          repository: jVucetic/hello-world-composite-action/main@main
+          repository: jVucetic/hello-world-composite-action/actions/first@main
           ref: main
           path: ./.github/actions/hello-world-composite-action/main/
 
