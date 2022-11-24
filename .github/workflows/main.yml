@@ -22,12 +22,12 @@ jobs:
       - name: Check out shared build repo
         uses: actions/checkout@v3
         with:
-          repository: daon-private/skycraper-shared-build
+          repository: jVucetic/hello-world-composite-action
           ref: main
           token: ${{ secrets.CI_BOT_TOKEN }}
-          path: ./.github/actions/skycraper-shared-build/actions/first
+          path: ./.github/actions/hello-world-composite-action/actions/first
 
       # run shared build action
       - name: Run shared build
-        uses: ./.github/actions/skycraper-shared-build/actions/first
+        uses: ./.github/actions/hello-world-composite-action/actions/first
 
