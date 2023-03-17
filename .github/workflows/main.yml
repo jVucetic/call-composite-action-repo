@@ -5,14 +5,31 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to say hello
     steps:
-      - name: Hello world action step
-        id: hello
-        uses: actions/hello-world-docker-action@v2
+      - name: build docker file
+        run: |
+          docker build -f Dockerfile -t hello-world .
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
         with:
-          who-to-greet: 'Mona the Octocat'
-      # Use the output from the `hello` step
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+          image-ref: 'hello-world'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+#      - name: Hello world action step
+#        id: hello
+#        uses: actions/hello-world-docker-action@v2
+#        with:
+#          who-to-greet: 'Mona the Octocat'
+#      # Use the output from the `hello` step
+#      - name: Get the output time
+#        run: echo "The time was ${{ steps.hello.outputs.time }}"
 
 #  sonarcloud:
 #    name: SonarCloud
