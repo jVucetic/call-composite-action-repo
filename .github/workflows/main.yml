@@ -17,6 +17,7 @@ jobs:
         with:
           image-ref: 'hello-world'
           format: 'sarif'
+          exit-code: '1'
           output: 'trivy-results.sarif'
 
 
