@@ -19,6 +19,13 @@ jobs:
           image --exit-code=1 -f table hello-world
         shell: bash
 
+      - name: Upload Trivy Scan File
+        run: |
+          docker run -v /var/run/docker.sock:/var/run/docker.sock -v  \
+          $HOME/Library/Caches:/root/.cache/ aquasec/trivy:latest  \
+          image --format sarif -o trivy-report.sarif table hello-world
+        shell: bash
+
 
 #        - name: Run Trivy vulnerability scanner
 #        uses: aquasecurity/trivy-action@master
