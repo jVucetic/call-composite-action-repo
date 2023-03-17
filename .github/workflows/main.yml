@@ -12,19 +12,27 @@ jobs:
         run: |
           docker build -f Dockerfile -t hello-world .
 
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: 'hello-world'
-          format: 'sarif'
-          exit-code: '1'
-          output: 'trivy-results.sarif'
+      - name: Scan image for vulnerabilities
+        run: |
+          docker run -v /var/run/docker.sock:/var/run/docker.sock -v  \
+          $HOME/Library/Caches:/root/.cache/ aquasec/trivy:latest  \
+          image --exit-code=1 ${{ env.IMAGE_TAG }}
+        shell: bash
 
 
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: 'trivy-results.sarif'
+#        - name: Run Trivy vulnerability scanner
+#        uses: aquasecurity/trivy-action@master
+#        with:
+#          image-ref: 'hello-world'
+#          format: 'sarif'
+#          exit-code: '1'
+#          output: 'trivy-results.sarif'
+#
+#
+#      - name: Upload Trivy scan results to GitHub Security tab
+#        uses: github/codeql-action/upload-sarif@v2
+#        with:
+#          sarif_file: 'trivy-results.sarif'
 
 #      - name: Hello world action step
 #        id: hello
