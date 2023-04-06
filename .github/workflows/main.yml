@@ -8,24 +8,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: build docker file
-        run: |
-          docker build -f Dockerfile -t hello-world .
-
-      - name: Scan image for vulnerabilities
-        run: |
-          docker run -v /var/run/docker.sock:/var/run/docker.sock -v  \
-          $HOME/Library/Caches:/root/.cache/ aquasec/trivy:latest  \
-          image --exit-code=1 -f table hello-world
-        shell: bash
-
-      - name: Upload Trivy Scan File
-        if: always()
-        run: |
-          docker run -v /var/run/docker.sock:/var/run/docker.sock -v  \
-          $HOME/Library/Caches:/root/.cache/ aquasec/trivy:latest  \
-          image --format sarif -o trivy-report.sarif hello-world
-        shell: bash
+#      - name: build docker file
+#        run: |
+#          docker build -f Dockerfile -t hello-world .
+#
+#      - name: Trivy scan image for vulnerabilities
+#        run: |
+#          docker run -v /var/run/docker.sock:/var/run/docker.sock -v  \
+#          $HOME/Library/Caches:/root/.cache/ aquasec/trivy:latest  \
+#          image --exit-code=1 -f table hello-world
+#        shell: bash
+#
+#      - name: Upload Trivy scan file
+#        if: always()
+#        run: |
+#          docker run -v /var/run/docker.sock:/var/run/docker.sock -v  \
+#          $HOME/Library/Caches:/root/.cache/ aquasec/trivy:latest  \
+#          image --format sarif -o trivy-report.sarif hello-world
+#        shell: bash
 
 
 #        - name: Run Trivy vulnerability scanner
@@ -51,18 +51,18 @@ jobs:
 #      - name: Get the output time
 #        run: echo "The time was ${{ steps.hello.outputs.time }}"
 
-#  sonarcloud:
-#    name: SonarCloud
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#        with:
-#          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-#      - name: SonarCloud Scan
-#        uses: SonarSource/sonarcloud-github-action@master
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
 #  hello_world_job:
 #    runs-on: ubuntu-latest
